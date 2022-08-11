@@ -1,0 +1,59 @@
+.pawn{
+    background-position-x: -385px;
+    
+}
+
+.knight{
+    background-position-x: -231px;
+
+}
+
+.rook{
+    background-position-x: -308px;
+
+}
+
+.bishop{
+    background-position-x: -154px;
+
+}
+.queen{
+    background-position-x: -77px;
+
+}
+
+.king{
+    background-position-x: 0px;
+}
+
+.pawn, .knight, .rook, .bishop, .queen, .king {
+    background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Chess_Pieces_Sprite.svg/800px-Chess_Pieces_Sprite.svg.png");
+    width: var(--tile-size);
+    height: var(--tile-size);
+    background-repeat: no-repeat;
+    background-size: 467px auto;
+    z-index: 1;
+}
+.white{
+    background-position-y: 0px;
+}
+
+.black{
+    background-position-y: -79px;
+}
+
+.highlight{
+    background-color: crimson;
+}
+
+.target{
+    background-color:cornflowerblue;
+}
+
+.blocked{
+    background-color: gray;
+}
+
+.checked{
+    background-color: purple;
+}

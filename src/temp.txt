@@ -1,0 +1,132 @@
+import $ from 'jquery'
+import { pieceID, prevID, prevCap, computerColor } from './Engine'
+import { getPiece, getColor, displayPiece, movePiece, capturePiece, removePiece, removeAllHighlight, removeCheck, checkCheck} from './Engine'
+import { setPieceID, setPrevID, setPlayerTurn, setPrevCap } from './Engine';
+var cpuCheck = false;
+
+
+//MAKE SURE TO CEHECK IF THE MOVE YOU JUST DID PUTS YOU IN CHECK
+function computerTurn() {
+    //check check
+    cpuCheck = checkCheck();
+    if (cpuCheck) {
+        while (checkCheck()) {
+            checkComputerTurn();
+        }
+        cpuCheck = false;
+    }
+    else {
+        //gets all elements of the computers color
+        let temp = $("." + computerColor);
+        //chooses a random piece
+        let randomPiece = Math.floor(Math.random() * temp.length);
+        let cpuPiece = temp[randomPiece];
+        setPieceID(cpuPiece.id);
+        //displays the moves for the piece
+        displayPiece(cpuPiece);
+
+        //gets an array of all the current highlighted pieces
+        let possibleMoves = $(".highlight, .target").toArray();
+
+        //if there arent any possible moves, pick another random piece until there are moves to make
+        while (possibleMoves.length === 0) {
+            randomPiece = Math.floor(Math.random() * temp.length);
+            cpuPiece = temp[randomPiece];
+            displayPiece(cpuPiece);
+            possibleMoves = $(".highlight, .target").toArray();
+        }
+
+
+        //Choose a random move from the list
+        let move = Math.floor(Math.random() * possibleMoves.length);
+        let moveID = possibleMoves[move].id;
+
+        //if it is a highlight then move the piece, if it is a target capture the piece.
+        if (possibleMoves[move].classList.contains("highlight")) {
+            movePiece($("#" + cpuPiece.id), $("#" + moveID))
+        }
+        else {
+            capturePiece($("#" + cpuPiece.id), $("#" + moveID));
+        }
+    }
+    //end the turn
+    removeAllHighlight();
+    removeCheck();
+    setPlayerTurn(true);
+    console.log("END TURN")
+}
+
+function checkComputerTurn() {
+    //definately works
+    console.log("START CAPTURE?")
+    console.log(prevCap)
+
+    let temp = $("." + computerColor);
+    //chooses a random piece
+    let randomPiece = Math.floor(Math.random() * temp.length);
+    let cpuPiece = temp[randomPiece];
+    //displays the moves for the piece
+    displayPiece(cpuPiece);
+    //gets an array of all the current highlighted pieces
+    let possibleMoves = $(".highlight, .target").toArray();
+
+    //if there arent any possible moves, pick    
+    //another random piece until there are moves to make
+    while (possibleMoves.length === 0) {
+        randomPiece = Math.floor(Math.random() * temp.length);
+        cpuPiece = temp[randomPiece];
+        displayPiece(cpuPiece);
+        possibleMoves = $(".highlight, .target").toArray();
+    }
+
+
+    //Choose a random move from the list
+    let move = Math.floor(Math.random() * possibleMoves.length);
+    let moveID = possibleMoves[move].id;
+
+    //if it is a highlight then move the piece, if it is a target capture the piece.
+    if (possibleMoves[move].classList.contains("highlight")) {
+        movePiece($("#" + cpuPiece.id), $("#" + moveID))
+    }
+    else {
+        capturePiece($("#" + cpuPiece.id), $("#" + moveID));
+    }
+    cpuCheck = checkCheck();
+
+    //fix it here
+
+    if (cpuCheck) {
+        //if still in check, reverse the last move.
+        //last capture is correct
+        
+        console.log("PREVIOUS ID")
+        console.log(prevID);
+        console.log("MOVED TO");
+        console.log(moveID);
+        console.log("CURRENT PIECE")
+        console.log(pieceID)
+        console.log("LAST CAPTURE")
+        console.log(prevCap);
+        
+        copyPiece($("#" + pieceID), $(prevID))
+        if (prevCap !== null && prevCap.includes("white")) {
+            //if there was a capture, replace the capture.
+            copyPiece($("#" + moveID), prevCap)
+        }
+        
+    }
+    console.log("END CHECK PHASE")
+}
+
+function copyPiece(to, from){
+    let tempTile = $(from);
+    if(from.jquery){
+        tempTile = from;
+        from = from.attr("class").split(/\s+/);
+    }
+    to.addClass(getPiece(from));
+    to.addClass(getColor(from));
+    removePiece(tempTile);
+}
+
+export { computerTurn }
