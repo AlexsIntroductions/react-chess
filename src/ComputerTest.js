@@ -8,6 +8,9 @@ import './ComputerTest.css'
 
 //INPUT: FEN STRING
 //TODO
+    //Get Pieces Moving
+        //only on this board, then send the chosen piece to the engine
+        
 
 function FENToBoard(fen) {
     let currentRow = 57;
@@ -77,7 +80,6 @@ class ComputerTest extends React.Component {
     componentDidMount() {
         if(this.state.start){
             FENToBoard(this.state.boardState);
-            setPlayerTurn(!this.state.start);
         }
         else{
             console.log("Trouble")

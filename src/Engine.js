@@ -379,6 +379,9 @@ class Engine extends React.Component {
 
     handleClick(event) {
         //makes sure the click was on the board
+        if(!playerTurn){
+            return;
+        }
         if (event.target.classList.contains("b-tile") || event.target.classList.contains("w-tile")) {
             //if there is a piece on the clicked space and we arent trying to capture it
             if (hasPiece(event.target) && !event.target.classList.contains("target")) {
