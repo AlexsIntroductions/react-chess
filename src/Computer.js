@@ -52,18 +52,6 @@ function computerTurn() {
 
     removeAllHighlight();
     //Testing
-    
-    console.log("CURRENT TILE")
-    console.log(currentTile);
-    console.log("CURRENT PIECE")
-    console.log(currentPiece)
-    console.log("CURRENT MOVE")
-    console.log(currentMove);
-    if(cpuCapture !== null){
-        console.log("PIECE CAPTURED")
-        console.log(cpuCapture)
-    }
-    console.log("END FUNCTION")
 
     //if still in check 
     if(checkCheck()){

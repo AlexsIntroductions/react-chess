@@ -6,11 +6,16 @@ import { copyPiece, getPiece, getColor, displayPiece, movePiece, capturePiece, r
 import { setPieceID, setPrevID, setPlayerTurn, setPrevCap } from './Engine';
 import './ComputerTest.css'
 
+
+var myTurn = false;
 //INPUT: FEN STRING
 //TODO
     //Get Pieces Moving
         //only on this board, then send the chosen piece to the engine
         
+
+
+
 
 function FENToBoard(fen) {
     let currentRow = 57;
@@ -77,12 +82,52 @@ class ComputerTest extends React.Component {
         }
     }
 
+    computerMove(){
+        removeAllHighlight();
+        removeCheck();
+    
+        let cpuPieces = $("." + computerColor).toArray();
+        let half = Math.ceil(cpuPieces.length / 2);
+        cpuPieces = cpuPieces.slice(half);
+        var cpuCapture = null;
+
+        console.log(cpuPieces);
+
+        //picks a random one
+        let ranNum = Math.floor(Math.random() * half);
+        //contains the jquery object of the selected piece
+        let currentPiece = $(cpuPieces[ranNum]);
+        //contains the ID of the tile of the selected piece
+
+        //get ID it will work
+        let currentTile = currentPiece.attr("id");
+
+        console.log(currentTile)
+
+        console.log(currentPiece);
+
+        displayPiece(currentPiece[0]);
+
+        let allMoves = $(".highlight, .target").toArray();
+
+        console.log(allMoves);
+
+        setPlayerTurn(this.state.start);
+        myTurn = false;
+    }
+
     componentDidMount() {
         if(this.state.start){
             FENToBoard(this.state.boardState);
+            //analyze board
+            myTurn = true;
+            //make move
+            while(myTurn){
+                this.computerMove();
+            }
         }
         else{
-            console.log("Trouble")
+            console.log("Not Computer's Turn")
         }
     }
 
